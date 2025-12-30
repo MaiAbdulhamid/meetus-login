@@ -1,39 +1,28 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuthStore } from '@/store/authStore'
-import { Spinner } from './ui/Spinner'
+import { useEffect, useState } from "react";
+import { useAuthStore } from "@/store/authStore";
+import { Spinner } from "./ui/Spinner";
 
 interface ProtectedRouteProps {
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const router = useRouter()
-  const { isAuthenticated, isLoading, checkAuth } = useAuthStore()
+  const { checkAuth } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/login')
-    }
-  }, [isLoading, isAuthenticated, router])
+    checkAuth().finally(() => setIsLoading(false));
+  }, [checkAuth]);
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <Spinner size="lg" className="border-purple-500 border-t-purple-200" />
       </div>
-    )
+    );
   }
 
-  if (!isAuthenticated) {
-    return null
-  }
-
-  return <>{children}</>
+  return <>{children}</>;
 }

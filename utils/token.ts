@@ -14,21 +14,21 @@ const deleteCookie = (name: string): void => {
 };
 
 export const saveToken = (token: string): void => {
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window !== undefined) {
     localStorage.setItem(TOKEN_KEY, token);
     setCookie(COOKIE_NAME, token);
   }
 };
 
 export const getToken = (): string | null => {
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window !== undefined) {
     return localStorage.getItem(TOKEN_KEY);
   }
   return null;
 };
 
 export const removeToken = (): void => {
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window !== undefined) {
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
     deleteCookie(COOKIE_NAME);
@@ -36,13 +36,13 @@ export const removeToken = (): void => {
 };
 
 export const saveUser = (user: { id: number; name: string }): void => {
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window !== undefined) {
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 };
 
 export const getUser = (): { id: number; name: string } | null => {
-  if (typeof globalThis.window !== "undefined") {
+  if (globalThis.window !== undefined) {
     const user = localStorage.getItem(USER_KEY);
     return user ? JSON.parse(user) : null;
   }
