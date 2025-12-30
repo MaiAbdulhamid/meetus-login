@@ -9,7 +9,7 @@ import { MailIcon, LockIcon } from "../icons";
 import { useLogin } from "@/hooks/useAuth";
 
 const loginSchema = z.object({
-  email: z.string().min(1, "Email is required").email("Invalid email format"),
+  email: z.email("Invalid email format").min(1, "Email is required"),
   password: z.string().min(1, "Password is required"),
 });
 
